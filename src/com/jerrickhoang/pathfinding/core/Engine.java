@@ -35,7 +35,7 @@ public class Engine {
 		frame = new JFrame(this.getClass().getSimpleName());
 		frame.setSize(1000, 800);
 		frame.setLocationRelativeTo(null);
-		view = new GameScreen();
+		view = new GameScreen(frame.getWidth(), frame.getHeight());
 		frame.add(view);
 
 

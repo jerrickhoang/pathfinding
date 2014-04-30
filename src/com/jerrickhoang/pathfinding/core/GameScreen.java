@@ -21,9 +21,9 @@ import javax.swing.JComponent;
 		private Graphics2D backImageGraphics2D;
 		private GameState gameState;
 		
-		public GameScreen() {
+		public GameScreen(int frameWidth, int frameHeight) {
 			super();
-			gameState = new GameState();
+			gameState = new GameState(frameWidth, frameHeight);
 		}
 		
 		public void render() {
@@ -60,7 +60,7 @@ import javax.swing.JComponent;
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			float g4 = 0.1f;
 			g.setColor(new Color(g4, g4, g4));
-			ArrayList<Obstacle> stationaryObstacles = gameState.obstacles;
+			ArrayList<Obstacle> stationaryObstacles = gameState.map.obstacles;
 			for (int i = 0; i < stationaryObstacles.size(); i++) {
 				g.fill(stationaryObstacles.get(i).getPolygon());
 			}

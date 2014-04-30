@@ -1,20 +1,25 @@
 package com.jerrickhoang.pathfinding.core;
-import java.util.ArrayList;
+
+import java.util.Random;
 
 
 
 public class GameState {
 	
 	public Robot robot;
-	public ArrayList<Obstacle> obstacles;
+	public GameMap map;
 	
-	public GameState() {
-		robot = new Robot();
-		obstacles = new ArrayList<Obstacle>();
+	public GameState(int frameWidth, int frameHeight) {
+		map = new GameMap(frameWidth, frameHeight);
+		robot = initRandomRobot();
+	}
+	
+	public Robot initRandomRobot() {
+		Random r = new Random();
+		return new Robot(r.nextDouble() * map.getWidth(), r.nextDouble() * map.getHeight());
 	}
 	
 	public Robot robot() {
-		// TODO Auto-generated method stub
 		return robot;
 	}
 

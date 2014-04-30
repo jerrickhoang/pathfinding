@@ -16,6 +16,12 @@ package com.jerrickhoang.pathfinding.core;
 		public Robot(){
 			path = new PFPath();
 		}
+		
+		public Robot(double x, double y) {
+			this.position = new PFPoint(x, y);
+			path = new PFPath();
+		}
+		
 		public void update(double seconds){
 
 		}
