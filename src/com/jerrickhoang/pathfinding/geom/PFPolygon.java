@@ -22,6 +22,7 @@ public class PFPolygon implements Shape {
 	
 	public PFPolygon(ArrayList<PFPoint> pointList) {
 		this.pointList = pointList;
+		calcAll();
 	}
 
 	public PFPolygon() {
@@ -103,47 +104,16 @@ public class PFPolygon implements Shape {
 	}
 	
 	public boolean isCounterClockWise() {
-		// TODO Auto-generated method stub
-		return false;
+		return counterClockWise;
 	}
 
-	public void translate(float f, float g) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static PFPolygon createRectOblique(double x, double y, double x2, double y2, double width){
-		ArrayList<PFPoint> pointList = new ArrayList<PFPoint>();
-		double r = width/2f;
-		double xOffset = 0;
-		double yOffset = 0;
-		double xDiff = x2 - x;
-		double yDiff = y2 - y;
-		if (xDiff == 0){
-			xOffset = r;
-			yOffset = 0;
-		}else if (yDiff == 0){
-			xOffset = 0;
-			yOffset = r;
-		}else{
-			double gradient = (yDiff) / (xDiff);
-			xOffset = (r*gradient / (Math.sqrt(1 + gradient * gradient)));
-			yOffset = -xOffset / gradient;
+	public void translate(double x, double y) {
+		for (int i = 0; i < pointList.size(); i++) {
+			pointList.get(i).x += x;
+			pointList.get(i).y += y;
 		}
-		pointList.add(new PFPoint(x - xOffset, y - yOffset));
-		pointList.add(new PFPoint(x + xOffset, y + yOffset));
-		pointList.add(new PFPoint(x2 + xOffset, y2 + yOffset));
-		pointList.add(new PFPoint(x2 - xOffset, y2 - yOffset));
-		return new PFPolygon(pointList);
-	}
-	
-	public static PFPolygon createRectOblique(PFPoint p1, PFPoint p2, double width){
-		return createRectOblique(p1.getX(), p1.getY(), p2.getX(), p2.getY(), width);
-	}
-	
-	public static PFPolygon creatCross(double x, double y, double x2, double y2, double width) {
-		// TODO
-		return null;
+		center.x += x;
+		center.y += y;
 	}
 
 	@Override

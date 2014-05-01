@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.jerrickhoang.pathfinding.geom.PFPolygon;
+import com.jerrickhoang.pathfinding.geom.PolygonGenerator;
 
 
 public class GameMap {
@@ -25,41 +26,27 @@ public class GameMap {
 
 	public ArrayList<PFPolygon> createRandomMap(int frameWidth, int frameHeight){
 		Random rand = new Random();
+		int numRects = 5;
 		ArrayList<PFPolygon> polygons = new ArrayList<PFPolygon>();
 
 		// make some rectangles
-		for (int i = 0; i < 4; i++){
+		for (int i = 0; i < numRects; i++){
 			PFPoint p = new PFPoint((float) rand.nextFloat() * frameWidth, (float) rand.nextFloat() * frameHeight);
 			PFPoint p2 = new PFPoint((float) rand.nextFloat() * frameWidth, (float) rand.nextFloat() * frameHeight);
 			float width = 10 + 30 * rand.nextFloat();
-			PFPolygon rect = PFPolygon.createRectOblique(p, p2, width);
+			PFPolygon rect = PolygonGenerator.createRectOblique(p, p2, width);
 			polygons.add(rect);
 		}
 		// make a cross
-		polygons.add(PFPolygon.createRectOblique(40, 70, 100, 70, 20));
-		polygons.add(PFPolygon.createRectOblique(70, 40, 70, 100, 20));
+		polygons.add(PolygonGenerator.createRectOblique(40, 70, 100, 70, 20));
+		polygons.add(PolygonGenerator.createRectOblique(70, 40, 70, 100, 20));
 		// make some stars
 		for (int i = 0; i < 4; i++){
-			ArrayList<PFPoint> pointList = new ArrayList<PFPoint>();
-			int numPoints = 4 + rand.nextInt(4) * 2;
-			double angleIncrement = Math.PI * 2f/ (numPoints * 2);
-			float rBig = 40 + rand.nextFloat() * 90;
-			float rSmall = 20 + rand.nextFloat() * 70;
-			double currentAngle = 0;
-			for (int k = 0; k < numPoints; k++){
-				double x = rBig * Math.cos(currentAngle);
-				double y = rBig * Math.sin(currentAngle);
-				pointList.add(new PFPoint((float) x, (float) y));
-				currentAngle += angleIncrement;
-				x = rSmall * Math.cos(currentAngle);
-				y = rSmall * Math.sin(currentAngle);
-				pointList.add(new PFPoint((float) x, (float) y));
-				currentAngle += angleIncrement;
-			}
-			PFPolygon poly = new PFPolygon(pointList);
-			assert poly.isCounterClockWise();
-			poly.translate(20 + (float) rand.nextFloat() * frameWidth, 20 + (float)rand.nextFloat() * frameHeight);
-			polygons.add(poly);
+			int topX = (int) (rand.nextFloat() * frameWidth);
+			int topY = (int) (rand.nextFloat() * frameHeight);
+			System.out.println("topx = " + topX + " topy " + topY);
+			polygons.add(PolygonGenerator.createStars(5 + rand.nextInt(4) * 2, 20 + topX, 20 + topY));
+
 		}
 		return polygons;
 	}
