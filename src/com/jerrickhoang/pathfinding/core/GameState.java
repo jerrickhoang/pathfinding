@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+import com.jerrickhoang.pathfinding.geom.PFPoint;
 import com.jerrickhoang.pathfinding.solver.Goal;
+import com.jerrickhoang.pathfinding.solver.Obstacle;
 import com.jerrickhoang.pathfinding.solver.PFNode;
 import com.jerrickhoang.pathfinding.solver.PathFinder;
 import com.jerrickhoang.pathfinding.solver.Robot;
@@ -27,12 +29,20 @@ public class GameState {
 	
 	public Robot initRandomRobot() {
 		Random r = new Random();
-		return new Robot(r.nextDouble() * map.getWidth(), r.nextDouble() * map.getHeight());
+		PFPoint p;
+		do {
+			p = new PFPoint(r.nextDouble() * map.getWidth(), r.nextDouble() * map.getHeight());
+		} while (insideObstacle(p));
+		return new Robot(p.x, p.y);
 	}
 	
 	public Goal initRandomGoal() {
 		Random r = new Random();
-		return new Goal(r.nextDouble() * map.getWidth(), r.nextDouble() * map.getHeight());
+		PFPoint p;
+		do {
+			p = new PFPoint(r.nextDouble() * map.getWidth(), r.nextDouble() * map.getHeight());
+		} while (insideObstacle(p));
+		return new Goal(p.x, p.y);
 	}
 	
 	public Robot robot() {
@@ -62,4 +72,10 @@ public class GameState {
 		
 	}
 
+	public boolean insideObstacle(PFPoint p) {
+		for (Obstacle ob : map.obstacles) {
+			if (ob.getPolygon().contains(p)) return true;
+		}
+		return false;
+	}
 }
