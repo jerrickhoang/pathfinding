@@ -3,7 +3,6 @@ package com.jerrickhoang.pathfinding.geom;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.jerrickhoang.pathfinding.core.PFPoint;
 
 public class PolygonGenerator {
 

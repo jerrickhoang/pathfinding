@@ -1,5 +1,7 @@
-package com.jerrickhoang.pathfinding.core;
+package com.jerrickhoang.pathfinding.solver;
 import java.util.ArrayList;
+
+import com.jerrickhoang.pathfinding.geom.PFPoint;
 
 
 

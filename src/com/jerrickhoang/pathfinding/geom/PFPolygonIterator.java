@@ -3,7 +3,6 @@ package com.jerrickhoang.pathfinding.geom;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 
-import com.jerrickhoang.pathfinding.core.PFPoint;
 
 public class PFPolygonIterator implements PathIterator {
 	public int type = PathIterator.SEG_MOVETO;

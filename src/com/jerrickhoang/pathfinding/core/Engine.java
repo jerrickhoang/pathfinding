@@ -14,6 +14,8 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.jerrickhoang.pathfinding.solver.Robot;
+
 
 
 public class Engine {

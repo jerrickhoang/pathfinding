@@ -11,6 +11,12 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import com.jerrickhoang.pathfinding.geom.PFPoint;
+import com.jerrickhoang.pathfinding.solver.Goal;
+import com.jerrickhoang.pathfinding.solver.Obstacle;
+import com.jerrickhoang.pathfinding.solver.PFNode;
+import com.jerrickhoang.pathfinding.solver.Robot;
+
 
 
 	public class GameScreen extends JComponent {
@@ -53,6 +59,8 @@ import javax.swing.JComponent;
 
 			renderObstacles(g);
 			renderRobot(g);
+			renderGoal(g);
+			renderVisibilityGraph(g);
 
 		}
 		
@@ -65,6 +73,13 @@ import javax.swing.JComponent;
 				g.fill(stationaryObstacles.get(i).getPolygon());
 			}
 
+		}
+		
+		private void renderGoal(Graphics2D g) {
+			Goal goal = gameState.goal;
+			g.setColor(Color.GREEN);
+			g.fill(new Ellipse2D.Double(goal.position.getX() - ROBOT_RADIUS, goal.position.getY() - ROBOT_RADIUS, 
+					2 * ROBOT_RADIUS, 2 * ROBOT_RADIUS));
 		}
 		
 		private void renderRobot(Graphics2D g) {
@@ -87,5 +102,13 @@ import javax.swing.JComponent;
 			//draw robot
 			g.fill(new Ellipse2D.Double(r.position.getX() - ROBOT_RADIUS, r.position.getY() - ROBOT_RADIUS, 
 										2 * ROBOT_RADIUS, 2 * ROBOT_RADIUS));
+		}
+		
+		private void renderVisibilityGraph(Graphics2D g) {
+			g.setColor(Color.red);
+			ArrayList<PFNode[]> vgraph = gameState.iterableVisibilityGraph();
+			for (PFNode[] edge : vgraph) {
+				g.drawLine((int) edge[0].p.x, (int) edge[0].p.y, (int) edge[1].p.x, (int) edge[1].p.y);
+			}
 		}
 	}

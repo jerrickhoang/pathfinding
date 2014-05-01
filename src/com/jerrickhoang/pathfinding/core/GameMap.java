@@ -3,8 +3,11 @@ package com.jerrickhoang.pathfinding.core;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.jerrickhoang.pathfinding.geom.PFPoint;
 import com.jerrickhoang.pathfinding.geom.PFPolygon;
 import com.jerrickhoang.pathfinding.geom.PolygonGenerator;
+import com.jerrickhoang.pathfinding.solver.Obstacle;
+import com.jerrickhoang.pathfinding.solver.PathFinder;
 
 
 public class GameMap {
@@ -58,4 +61,5 @@ public class GameMap {
 	public int getHeight() {
 		return height;
 	}
+
 }

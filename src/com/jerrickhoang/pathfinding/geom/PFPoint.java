@@ -1,4 +1,4 @@
-package com.jerrickhoang.pathfinding.core;
+package com.jerrickhoang.pathfinding.geom;
 
 
 public class PFPoint {
@@ -11,6 +11,11 @@ public class PFPoint {
 	}
 	
 	public PFPoint() {
+	}
+
+	public PFPoint(PFPoint p) {
+		this.x = p.x;
+		this.y = p.y;
 	}
 
 	public double getX() {

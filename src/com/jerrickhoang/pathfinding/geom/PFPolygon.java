@@ -9,8 +9,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 
-import com.jerrickhoang.pathfinding.core.PFPoint;
-
 public class PFPolygon implements Shape {
 
 	public PFPoint center;
@@ -29,6 +27,19 @@ public class PFPolygon implements Shape {
 		pointList = new ArrayList<PFPoint>();
 	}
 	
+	public PFPolygon(PFPolygon polygon) {
+		pointList = new ArrayList<PFPoint>(polygon.getPoints().size());
+		for (int i = 0; i < polygon.getPoints().size() ;i++){
+			PFPoint existingPoint = polygon.getPoints().get(i);
+			pointList.add(new PFPoint(existingPoint));
+		}
+		area = polygon.getArea();
+		counterClockWise = polygon.isCounterClockWise();
+		radius = polygon.radius;
+		radiusSq = polygon.radiusSq;
+		center = new PFPoint(polygon.center);
+	}
+
 	public void calcArea(){
 		double signedArea = 0;
 		PFPoint cur, next;
@@ -170,6 +181,76 @@ public class PFPolygon implements Shape {
 		return false;
 	}
 
+	public boolean intersectsLine(PFPoint p1, PFPoint p2){
+		return intersectsLine(p1.x, p1.y, p2.x, p2.y);
+	}
+	
+	public boolean intersectsLine(double x1, double y1, double x2, double y2){
+
+		if (x1 == x2 && y1 == y2){
+			return false;
+		}
+		double ax = x2-x1;
+		double ay = y2-y1;
+		PFPoint pointIBefore = pointList.get(pointList.size()-1);
+		for (int i = 0; i < pointList.size(); i++){
+			PFPoint pointI = pointList.get(i);
+			double x3 = pointIBefore.x;
+			double y3 = pointIBefore.y;
+			double x4 = pointI.x;
+			double y4 = pointI.y;
+
+			double bx = x3-x4;
+			double by = y3-y4;
+			double cx = x1-x3;
+			double cy = y1-y3;
+
+			double alphaNumerator = by*cx - bx*cy;
+			double commonDenominator = ay*bx - ax*by;
+			if (commonDenominator > 0){
+				if (alphaNumerator < 0 || alphaNumerator > commonDenominator){
+					pointIBefore = pointI;
+					continue;
+				}
+			}else if (commonDenominator < 0){
+				if (alphaNumerator > 0 || alphaNumerator < commonDenominator){
+					pointIBefore = pointI;
+					continue;
+				}
+			}
+			double betaNumerator = ax*cy - ay*cx;
+			if (commonDenominator > 0){
+				if (betaNumerator < 0 || betaNumerator > commonDenominator){
+					pointIBefore = pointI;
+					continue;
+				}
+			}else if (commonDenominator < 0){
+				if (betaNumerator > 0 || betaNumerator < commonDenominator){
+					pointIBefore = pointI;
+					continue;
+				}
+			}
+			if (commonDenominator == 0){
+				double collinearityTestForP3 = x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2);
+				if (collinearityTestForP3 == 0){
+					if (x1 >= x3 && x1 <= x4 || x1 <= x3 && x1 >= x4 ||
+							x2 >= x3 && x2 <= x4 || x2 <= x3 && x2 >= x4 ||
+							x3 >= x1 && x3 <= x2 || x3 <= x1 && x3 >= x2){
+						if (y1 >= y3 && y1 <= y4 || y1 <= y3 && y1 >= y4 ||
+								y2 >= y3 && y2 <= y4 || y2 <= y3 && y2 >= y4 ||
+								y3 >= y1 && y3 <= y2 || y3 <= y1 && y3 >= y2){
+							return true;
+						}
+					}
+				}
+				pointIBefore = pointI;
+				continue;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	public double[] getBoundsArray() {
 		double[] bounds = new double[4];
 		double leftX = Double.MAX_VALUE;
@@ -257,5 +338,33 @@ public class PFPolygon implements Shape {
 	
 	public double getArea()	{
 		return area;
+	}
+
+	
+	public ArrayList<PFPoint> getPoints() {
+		return pointList;
+	}
+
+	public PFPolygon copy(){
+		PFPolygon polygon = new PFPolygon(this);
+		return polygon;
+	}
+	
+	public PFPoint getCenter() {
+		return center;
+	}
+
+	public boolean contains(PFPoint point) {
+		return contains(point.x, point.y);
+	}
+
+	public void reversePointOrder() {
+		counterClockWise = !counterClockWise;
+		ArrayList<PFPoint> tempPoints = new ArrayList<PFPoint>(pointList.size());
+		for (int i = pointList.size()-1; i >= 0; i--){
+			tempPoints.add(pointList.get(i));
+		}
+		pointList.clear();
+		pointList.addAll(tempPoints);
 	}
 }

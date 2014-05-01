@@ -1,7 +1,6 @@
 package com.jerrickhoang.pathfinding.geom;
 
 
-import com.jerrickhoang.pathfinding.core.PFPoint;
 
 public class Utility {
 

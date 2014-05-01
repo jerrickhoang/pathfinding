@@ -1,4 +1,6 @@
-package com.jerrickhoang.pathfinding.core;
+package com.jerrickhoang.pathfinding.solver;
+
+import com.jerrickhoang.pathfinding.geom.PFPoint;
 
 
 
@@ -6,6 +8,7 @@ package com.jerrickhoang.pathfinding.core;
 		public PFPoint position;
 		public PFPoint target;
 		public PFPath path;
+		public Goal goal;
 		
 
 		float speed;
