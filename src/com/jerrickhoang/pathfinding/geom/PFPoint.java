@@ -37,5 +37,12 @@ public class PFPoint {
 	public void setY(double y) {
 		this.y = y;
 	}
+	
+	@Override
+	public int hashCode() {
+		int hashX = ((Double) x).hashCode();
+        int hashY = ((Double) y).hashCode();
+        return 31 * hashX + hashY;
+	}
 
 }

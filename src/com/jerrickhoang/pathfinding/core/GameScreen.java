@@ -15,6 +15,7 @@ import com.jerrickhoang.pathfinding.geom.PFPoint;
 import com.jerrickhoang.pathfinding.solver.Goal;
 import com.jerrickhoang.pathfinding.solver.Obstacle;
 import com.jerrickhoang.pathfinding.solver.PFNode;
+import com.jerrickhoang.pathfinding.solver.PFSolution;
 import com.jerrickhoang.pathfinding.solver.Robot;
 
 
@@ -61,6 +62,7 @@ import com.jerrickhoang.pathfinding.solver.Robot;
 			renderRobot(g);
 			renderGoal(g);
 			renderVisibilityGraph(g);
+			//renderSolution(g);
 
 		}
 		
@@ -105,10 +107,25 @@ import com.jerrickhoang.pathfinding.solver.Robot;
 		}
 		
 		private void renderVisibilityGraph(Graphics2D g) {
-			g.setColor(Color.red);
+
+			g.setColor(Color.gray);
 			ArrayList<PFNode[]> vgraph = gameState.iterableVisibilityGraph();
 			for (PFNode[] edge : vgraph) {
 				g.drawLine((int) edge[0].p.x, (int) edge[0].p.y, (int) edge[1].p.x, (int) edge[1].p.y);
+			}
+		}
+		
+		private void renderSolution(Graphics2D g) {
+				
+			PFSolution solution = gameState.generateSolution();
+			if (solution != null) {
+				if (solution.path == null) System.out.println("null path");
+				g.setColor(Color.red);
+				for (int i = 0; i < solution.path.size() - 1; i ++) {
+					PFPoint cur = solution.path.get(i).p;
+					PFPoint next = solution.path.get(i + 1).p;
+					g.drawLine((int) cur.x,(int) cur.y,(int) next.x,(int) next.y);
+				}
 			}
 		}
 	}

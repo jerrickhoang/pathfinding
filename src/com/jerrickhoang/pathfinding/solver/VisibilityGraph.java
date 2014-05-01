@@ -49,13 +49,14 @@ public class VisibilityGraph {
     }
 
     public void printMap() {
+    	if (adj.size() == 0) System.out.println("Empty graph!");
         Iterator it = adj.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pairs = (Map.Entry)it.next();
             PFNode v = (PFNode) pairs.getKey();
             ArrayList<PFNode> l = (ArrayList<PFNode>) pairs.getValue();
             System.out.println(v + ": " + l);
-            it.remove(); // avoids a ConcurrentModificationException
+            it.remove();
         }
     }
     
@@ -83,5 +84,19 @@ public class VisibilityGraph {
 		
 		g.printMap();
 	}
+
+	public boolean contains(PFNode v) {
+//    	if (adj.size() == 0) System.out.println("Empty graph!");
+//        Iterator it = adj.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry pairs = (Map.Entry)it.next();
+//            PFNode n = (PFNode) pairs.getKey();
+//            if (n.equals(v)) return true;
+//            it.remove();
+//        }
+//        return false;
+		return adj.containsKey(v);
+	}
+	
 
 }
